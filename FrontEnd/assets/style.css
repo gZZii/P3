@@ -135,20 +135,20 @@ li:hover {
 	margin-bottom: 3.19rem;
 }
 
-.button {
+.buttonsFilter {
 	min-width: 6.25rem;
 	height: 2.3125rem;
 	flex-shrink: 0;
 	border-radius: 60px;
 	border: 1px solid #1D6154;
-	background: white;
 	font-family: "Syne";
 	color:#1D6154 ;
 }
 
-.button :active {
+.buttonsFilter:hover {
 	background-color: #1D6154;
 	color: white;
+	cursor: pointer;
 }
 
 .gallery {

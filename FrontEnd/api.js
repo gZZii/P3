@@ -1,7 +1,8 @@
+let works
 async function getAllWorks() {
   // Récupération des pièces depuis l'API
   const reponse = await fetch("http://localhost:5678/api/works");
-  const works = await reponse.json();
+  works = await reponse.json();
   const valeurWorks = JSON.stringify(works); // Transformation des works en JSON
   console.log(valeurWorks);
   genererWorks(works);
@@ -32,3 +33,38 @@ function genererWorks(works) {
     workElement.appendChild(nameElement);
   }
 }
+
+//gestion des boutons 
+
+const boutonTous = document.querySelector("#btnTous");
+boutonTous.addEventListener("click",function (){
+    document.querySelector(".gallery").innerHTML="";
+    getAllWorks();
+});
+
+const boutonObjets = document.querySelector("#btnObjets");
+boutonObjets.addEventListener("click", function (){
+    const worksFiltresObjets = works.filter(function(work){
+        return work.category.name === "Objets"
+    });
+    document.querySelector(".gallery").innerHTML="";
+    genererWorks(worksFiltresObjets)
+});
+
+const boutonAppartements = document.querySelector("#btnAppartements");
+boutonAppartements.addEventListener("click", function(){
+    const worksFiltresAppartements = works.filter(function(work){
+        return work.category.name === "Appartements"
+    });
+    document.querySelector(".gallery").innerHTML="";
+    genererWorks(worksFiltresAppartements)
+});
+
+const boutonHotelsEtRestaurants = document.querySelector("#btnHotelsEtRestaurants");
+boutonHotelsEtRestaurants.addEventListener("click", function(){
+    const worksFiltresHotel = works.filter(function(work){
+        return work.category.name === "Hotels & restaurants"
+    });
+    document.querySelector(".gallery").innerHTML="";
+    genererWorks(worksFiltresHotel)
+});
