@@ -58,6 +58,12 @@ header {
 	justify-content: space-between;
 	margin: 50px 0
 }
+
+header a {
+	text-decoration: none;  /* ajout de style pour les les liens hypertextes du nav*/
+	color: black;
+}
+
 section {
 	margin: 50px 0
 }
@@ -147,6 +153,7 @@ li:visited {
 	border: 1px solid #1D6154;
 	font-family: "Syne";
 	color:#1D6154 ;
+	background-color: white;
 }
 
 .buttonsFilter:hover {
@@ -249,5 +256,7 @@ footer nav ul {
 }
 
 .logIn a {
+	display: flex;
+	justify-content: center;
 	color: black;
 }
