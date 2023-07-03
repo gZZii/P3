@@ -64,6 +64,13 @@ header a {
 	color: black;
 }
 
+header a:hover {
+	color: #B1663C;
+}
+header a::visited {
+	font-weight: bold;
+	color:black;
+}
 section {
 	margin: 50px 0
 }
