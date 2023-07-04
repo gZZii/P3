@@ -18,10 +18,10 @@ export async function logInUser() {
   
         if (response.ok) {
           // La requête a réussi
-          const data = await response.json();
+          let data = await response.json();
   
           // Récupération du token de la réponse
-          const token = data.token;
+          let token = data.token;
   
           // Stockage du token dans le localStorage
           localStorage.setItem("token", token);
