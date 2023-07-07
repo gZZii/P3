@@ -80,3 +80,78 @@ const buttonHotelsAndRestaurants = document.querySelector("#btnHotelsAndRestaura
     document.querySelector(".gallery").innerHTML = "";
     generateWorks(worksFilterHotelsAndRestaurants);
 });
+
+//gestion de la page si le token est stocké dans le local storage
+var getToken = localStorage.getItem('token');
+console.log(getToken);
+
+if (getToken === 'token')
+{
+   //supprimer les boutons
+   document.querySelector(".buttonsFilter").innerHTML = "";
+   
+   //ajouter les boutons modifier 
+   //1ere possibilité sur la création des boutons 
+    const imageButtonModify = document.createElement("img");
+          imageButtonModify.src = "P3/FrontEnd/assets/icons/Group.svg";
+
+    const nameButtonModify = document.createElement("p");
+          nameButtonModify.innerText = "modifier";
+
+    const buttonModify = document.createElement("button");
+          buttonModify.appendChild(imageButtonModify);
+          buttonModify.appendChild(nameButtonModify);
+
+    const sectionPortfolio = document.querySelector("#portfolio");
+          sectionPortfolio.appendChild(buttonModify);
+          
+
+   //ajouter le bandeau d'édition  
+
+} else {
+    //on supprimes les boutons modifier déja présent sur la page 
+    //2eme possibilités (plus pratique a mes yeux)
+    document.querySelector(".btnModifyProfile").innerHTML = "";
+    //document.querySelector(".btnModifyProjects").innerHTML = "";
+    //j'ai crée 2 class différentes car autrement seulement un seul bouton disparaissait
+}
+
+//créer la modale
+
+let modal = null;
+
+const openModal = function (event)
+{
+    event.preventDefault()
+    const target = document.querySelector(".modal");
+          target.style.display = "flex";
+          target.removeAttribute("aria-hidden");
+          target.setAttribute("aria-modal", "true");
+          modal = target;
+          modal.addEventListener("click", closeModal);
+          modal.querySelector(".modalCloser").addEventListener("click", closeModal);
+          modal.querySelector("#modalStopPropagation").addEventListener("click", stopPropagation);
+};
+
+
+const closeModal = function (event)
+{
+        if (modal === null) return;
+          event.preventDefault();
+          modal.style.display = "none";
+          modal.setAttribute("aria-hidden", "true");
+          modal.removeAttribute("aria-modal");
+          modal.removeEventListener("click", closeModal);
+          modal.querySelector(".modalCloser").removeEventListener("click", closeModal);
+          modal.querySelector("#modalStopPropagation").removeEventListener("click", stopPropagation);
+          modal = null;
+};
+
+const stopPropagation = function (event)
+{
+    event.stopPropagation()
+}
+
+document.querySelector(".btnModifyProjects").addEventListener("click", openModal);
+
+// coder une partie pour supprimer le token du localStorage (se deconnecter)
