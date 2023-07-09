@@ -39,7 +39,7 @@ function generateWorks(works)
     }
 };
 
-//gestion des boutons 
+//gestion des boutons filtres
 
 const buttonAll = document.querySelector("#btnAll");
       buttonAll.addEventListener("click", function () 
@@ -82,13 +82,13 @@ const buttonHotelsAndRestaurants = document.querySelector("#btnHotelsAndRestaura
 });
 
 //gestion de la page si le token est stocké dans le local storage
-var getToken = localStorage.getItem('token');
+var getToken = sessionStorage.getItem('token');
 console.log(getToken);
 
-if (getToken === 'token')
+if (getToken)
 {
    //supprimer les boutons
-   document.querySelector(".buttonsFilter").innerHTML = "";
+   document.querySelector(".filter").innerHTML = "";
    
    //ajouter les boutons modifier 
    //1ere possibilité sur la création des boutons 
@@ -112,7 +112,7 @@ if (getToken === 'token')
     //on supprimes les boutons modifier déja présent sur la page 
     //2eme possibilités (plus pratique a mes yeux)
     document.querySelector(".btnModifyProfile").innerHTML = "";
-    //document.querySelector(".btnModifyProjects").innerHTML = "";
+    document.querySelector(".btnModifyProjects").innerHTML = "";
     //j'ai crée 2 class différentes car autrement seulement un seul bouton disparaissait
 }
 
