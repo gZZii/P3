@@ -154,4 +154,53 @@ const stopPropagation = function (event)
 
 document.querySelector(".btnModifyProjects").addEventListener("click", openModal);
 
+window.addEventListener('keydown', function (event){
+      if (event.key === "Escape" || event.key === "Esc"){
+            closeModal(event)
+      }
+});
+
+//Creation de la gallery à l'interieur de la modale
+
+async function getAllWorksInModal ()
+{
+    // Récuperation des piéces depuis l'API
+    const response = await fetch (url);
+    works = await response.json();
+    generateWorksInModal(works);
+}
+
+(async function(){
+    await getAllWorksInModal();
+})();
+
+function generateWorksInModal(works)
+{
+    //creéation des works depuis JSON
+    for (let i=0; i < works.length; i++)
+    {
+        const article = works[i];
+        
+        //création des balises
+        const imageElement = document.createElement("img");
+              imageElement.src = article.imageUrl;
+
+        const nameElement = document.createElement("p");
+              nameElement.textContent = "éditer";
+      
+        const buttonElement = document.createElement("button");
+              buttonElement.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+
+        //création d'une balise dédiée à un projet
+        const workElement = document.createElement("article");
+              workElement.appendChild(imageElement);
+              workElement.appendChild(nameElement);
+              workElement.appendChild(buttonElement);
+              
+        //recuperation de l'élément du DOM qui acceuillera les travaux
+        const sectionGallery = document.querySelector(".modalGallery");
+              sectionGallery.appendChild(workElement);
+    }
+};
+
 // coder une partie pour supprimer le token du localStorage (se deconnecter)

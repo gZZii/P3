@@ -169,6 +169,18 @@ li:visited {
 	padding: 5em;
 	border-radius: 10px;
 	background-color: white;
+	box-sizing: border-box;
+}
+
+.modalGallery {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+
+}
+
+.modalGallery img {
+	width: 20%;
 }
 
 /* Ajout de la partie filtre */
