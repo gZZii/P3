@@ -190,6 +190,7 @@ function generateWorksInModal(works)
       
         const buttonElement = document.createElement("button");
               buttonElement.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+              buttonElement.addEventListener("click", deleteWork);
 
         //création d'une balise dédiée à un projet
         const workElement = document.createElement("article");
@@ -203,4 +204,32 @@ function generateWorksInModal(works)
     }
 };
 
+//création de la fonction de suppression de works via les button
+
+async function deleteWork (event) 
+{
+      //Annule le rechargement de la page instant
+      event.preventDefault();
+
+      //identifier le projet a supprimer
+      const workId = event.target.closest("button").id; 
+
+      //on appelle la methode fetch et fournie l'authorisation de supprimer via le token 
+      const response = await fetch("'http://localhost:5678/api/works/${workId}",
+      {
+            method: "DELETE",
+            headers: {
+                  Authorization: 'Bearer ${getToken}'
+            }
+      });
+
+      if (response.status === 200) {
+            console.log("le travail a été supprimé avec succès !");
+            event.target.closest("article").remove();
+      }
+      else
+      {
+            alert ("Une erreur s'est produite lors de la suppression du projet !")
+      }
+};
 // coder une partie pour supprimer le token du localStorage (se deconnecter)
