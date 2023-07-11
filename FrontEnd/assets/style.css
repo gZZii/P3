@@ -162,7 +162,29 @@ li:visited {
 	background: rgba(0, 0, 0, 0.5);
 }
 
+.modal2 {
+	position: fixed;
+	display: none;
+	align-items: center;
+	justify-content: center;
+	top: 0;
+	left: 0;
+	width: 100%;	
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+}
+
 .modalWrapper {
+	overflow: auto;
+	height: 65%;
+	width: 20%;
+	padding: 5em;
+	border-radius: 10px;
+	background-color: white;
+	box-sizing:content-box
+}
+
+.modalWrapper2 {
 	overflow: auto;
 	height: 65%;
 	width: 20%;

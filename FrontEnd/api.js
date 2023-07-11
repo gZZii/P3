@@ -232,4 +232,40 @@ async function deleteWork (event)
             alert ("Une erreur s'est produite lors de la suppression du projet !")
       }
 };
+
+//fermeture de la premiere modale et ouverture de la seconde
+const openModal2 = function(event) 
+{    
+      event.preventDefault()
+      const target = document.querySelector(".modal2");
+      target.style.display = "flex";
+      target.removeAttribute("aria-hidden");
+      target.setAttribute("aria-modal", "true");
+      modal = target;
+      modal.addEventListener("click", closeModal2);
+      modal.querySelector(".modalCloser").addEventListener("click", closeModal2);
+      modal.querySelector("#modalStopPropagation").addEventListener("click", stopPropagation);
+};
+
+const closeModal2 = function (event)
+{
+        if (modal === null) return;
+          event.preventDefault();
+          modal.style.display = "none";
+          modal.setAttribute("aria-hidden", "true");
+          modal.removeAttribute("aria-modal");
+          modal.removeEventListener("click", closeModal2);
+          modal.querySelector(".modalCloser").removeEventListener("click", closeModal2);
+          modal.querySelector("#modalStopPropagation").removeEventListener("click", stopPropagation);
+          modal = null;
+};
+
+document.querySelector("#addPicture").addEventListener("click", openModal2, closeModal);
+console.log(openModal2);
+
+window.addEventListener('keydown', function (event){
+      if (event.key === "Escape" || event.key === "Esc"){
+            closeModal2(event)
+      }
+});
 // coder une partie pour supprimer le token du localStorage (se deconnecter)
