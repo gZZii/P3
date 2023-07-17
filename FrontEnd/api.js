@@ -7,8 +7,10 @@ async function getAllWorks ()
     // Récuperation des piéces depuis l'API
     const response = await fetch (url);
     works = await response.json();
+    console.log(works)
     generateWorks(works);
 }
+
 
 (async function(){
     await getAllWorks();
@@ -83,7 +85,7 @@ const buttonHotelsAndRestaurants = document.querySelector("#btnHotelsAndRestaura
 
 //gestion de la page si le token est stocké dans le local storage
 var getToken = sessionStorage.getItem('token');
-console.log(getToken);
+
 
 if (getToken)
 {
@@ -114,7 +116,8 @@ if (getToken)
     document.querySelector(".btnModifyProfile").innerHTML = "";
     document.querySelector(".btnModifyProjects").innerHTML = "";
     //j'ai crée 2 class différentes car autrement seulement un seul bouton disparaissait
-}
+};
+
 
 //créer la modale
 
@@ -212,19 +215,21 @@ async function deleteWork (event)
       event.preventDefault();
 
       //identifier le projet a supprimer
-      const workId = event.target.closest("button").id; 
+      let workId = event.target.closest(works).id; 
+
+      console.log(workId);
 
       //on appelle la methode fetch et fournie l'authorisation de supprimer via le token 
-      const response = await fetch("'http://localhost:5678/api/works/${workId}",
+      const response = await fetch(`http://localhost:5678/api/works/${workId}`,
       {
             method: "DELETE",
             headers: {
-                  Authorization: 'Bearer ${getToken}'
-            }
+                  Authorization: `Bearer ${getToken}`
+            },
       });
 
       if (response.status === 200) {
-            console.log("le travail a été supprimé avec succès !");
+            console.log("le projet a été supprimé avec succès !");
             event.target.closest("article").remove();
       }
       else
@@ -237,6 +242,7 @@ async function deleteWork (event)
 const openModal2 = function(event) 
 {    
       event.preventDefault()
+      closeModal(event);
       const target = document.querySelector(".modal2");
       target.style.display = "flex";
       target.removeAttribute("aria-hidden");
@@ -260,12 +266,49 @@ const closeModal2 = function (event)
           modal = null;
 };
 
-document.querySelector("#addPicture").addEventListener("click", openModal2, closeModal);
-console.log(openModal2);
+document.querySelector("#addPicture").addEventListener("click", openModal2);
 
 window.addEventListener('keydown', function (event){
       if (event.key === "Escape" || event.key === "Esc"){
             closeModal2(event)
       }
 });
+
+//Creation de la fonction permettant d'ajouter un projet
+  const form = document.querySelector('form');
+  form.addEventListener('submit', createWorks);
+
+async function createWorks(event)
+{
+      event.preventDefault();
+      const form = event.target;
+      const image = form.image.src
+      const titre = form.titre.value
+      const category = form.category.value
+
+      const data = {
+            image: image,
+            titre: titre,
+            category: category,
+      }
+
+      const response = await fetch("http://localhost:5678/api/works",{
+            method: "POST",
+            headers: 
+            {
+                  "content-type": "application/json",
+                  Authorization: `Bearer ${getToken}`
+            },
+            body: JSON.stringify(data)
+      });
+
+      if (response.status === 201)
+      {
+            console.log("le projet a été crée avec succès !")
+      }
+      else
+      {
+            alert ("Une erreur s'est produite lors de la création du projet !")
+      }
+}
 // coder une partie pour supprimer le token du localStorage (se deconnecter)
