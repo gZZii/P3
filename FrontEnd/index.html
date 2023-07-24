@@ -17,6 +17,8 @@
 <body>
 
   <header>
+    <div class="editionBanner"></div>
+    <div class = "headerNav">
     <h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
     <nav>
       <ul>
@@ -26,6 +28,7 @@
         <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
       </ul>
     </nav>
+  </div>
   </header>
 
   <main>
@@ -44,36 +47,29 @@
           souci du détail, le respect du planning et dubudget.</p>
         <p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée: architecte DPLG, décorateur(trice)</p>
       </article>
-
     </section>
-
-    <div class="btnModifyProfile">
-      <img src="./assets/icons/Group.svg" alt="bouton de modification">modifier
-    </div>
-
+    <div class = introductionButton></div>
+    
     <section id="portfolio">
-
       <div class="portfolioTitleAndButton">
         <h2>Mes Projets</h2>
-        <button class="btnModifyProjects">
-          <img src="./assets/icons/Group.svg" alt="bouton de modification">modifier
-        </button>
-
+      </div>
         <aside class="modal" aria-hidden="true" aria-modal="false">
           <div class="modalWrapper" id="modalStopPropagation">
             <button class = "modalCloser"><i class="fa-solid fa-xmark"></i></button>
             <h3>Galerie Photo</h3>
             <div class="modalGallery"></div>
-            <div class="editProjects"></div>
+            <div class="editProjects">
             <button id="addPicture" class="buttonsFilter">Ajouter une photo</button>
             <button id="suppressGallery" class="buttonSupressGallery">Supprimer la galerie</button>
+          </div>
           </div>
         </aside>
 
         <aside class="modal2" aria-hidden="true" aria-modal="false">
         <div class="modalWrapper2" id="modalStopPropagation">
             <div class = modalNav>
-              <i class="fa-solid fa-arrow-left"></i>
+              <button class = "backButton"><i class="fa-solid fa-arrow-left"></i></button>
               <button class = "modalCloser"><i class="fa-solid fa-xmark"></i></button> 
             </div>
             <div class="modalBody">
@@ -96,7 +92,7 @@
       <div class="filter">
         <button id="btnAll" class="buttonsFilter">Tous</button>
         <button id="btnObjects" class="buttonsFilter">Objets</button>
-        <button id="btnApartments" class="buttonsFilter">Appartements</button>
+        <button id="btnAppartments" class="buttonsFilter">Appartements</button>
         <button id="btnHotelsAndRestaurants" class="buttonsFilter">Hôtels & restaurants</button>
       </div>
 

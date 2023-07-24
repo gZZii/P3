@@ -2,6 +2,15 @@
 
 const url = "http://localhost:5678/api/works"; 
 let works // non utilisable en dehors de getAllWorks sinon
+
+//gestion de la page si le token est stocké dans le local storage
+var token = sessionStorage.getItem('token');
+
+
+
+//INIT PAGE
+// --
+
 async function getAllWorks ()
 {
     // Récuperation des piéces depuis l'API
@@ -24,16 +33,16 @@ function generateWorks(works)
         const article = works[i];
         
         //création des balises
-        const imageElement = document.createElement("img");
-              imageElement.src = article.imageUrl;
+        const img = document.createElement("img");
+              img.src = article.imageUrl;
 
-        const nameElement = document.createElement("p");
-              nameElement.textContent = article.title;
+        const label = document.createElement("p");
+              label.textContent = article.title;
 
         //création d'une balise dédiée à un projet
         const workElement = document.createElement("article");
-              workElement.appendChild(imageElement);
-              workElement.appendChild(nameElement);
+              workElement.appendChild(img);
+              workElement.appendChild(label);
 
         //recuperation de l'élément du DOM qui acceuillera les travaux
         const sectionGallery = document.querySelector(".gallery");
@@ -41,89 +50,202 @@ function generateWorks(works)
     }
 };
 
-//gestion des boutons filtres
 
-const buttonAll = document.querySelector("#btnAll");
-      buttonAll.addEventListener("click", function () 
-{
-      document.querySelector(".gallery").innerHTML = "";
-      getAllWorks();
+
+
+// FILTERS BUTTONS
+// --
+
+//Buttons nodes
+const btn_all = document.querySelector("#btnAll");
+const btn_filter_object = document.querySelector("#btnObjects");
+const btn_filter_flats =  document.querySelector("#btnAppartments");
+const btn_filter_hotels = document.querySelector("#btnHotelsAndRestaurants");
+
+//Buttons actions
+btn_all.addEventListener("click", event => {
+      getWorks('all')
+});
+btn_filter_object.addEventListener("click", event => {
+      getWorks('Objets')
+});
+btn_filter_flats.addEventListener("click", event => {
+      getWorks('Appartements')
+});
+btn_filter_hotels.addEventListener("click", event => {
+      getWorks('Hotels & restaurants')
 });
 
-const buttonObjects = document.querySelector("#btnObjects");
-      buttonObjects.addEventListener("click", function () 
+
+//Buttons functions
+function resetGalleryView()
 {
-    const worksFilterObjects = works.filter(function (work) 
+      document.querySelector(".gallery").innerHTML ="";
+}
+
+function filterWorks(category)
 {
-        return work.category.name === "Objets"; 
-});
-    document.querySelector(".gallery").innerHTML = "";
-    generateWorks(worksFilterObjects);
-});
+      return works.filter(work => work.category.name === category);
+}
 
-const buttonApartments = document.querySelector("#btnApartments");
-      buttonApartments.addEventListener("click", function () 
+function getWorks(category)
 {
-    const worksFilterApartments = works.filter(function (work) 
-{
-        return work.category.name === "Appartements"; 
-});
-    document.querySelector(".gallery").innerHTML = "";
-    generateWorks(worksFilterApartments);
-});
+      resetGalleryView();
 
-const buttonHotelsAndRestaurants = document.querySelector("#btnHotelsAndRestaurants");
-      buttonHotelsAndRestaurants.addEventListener("click", function () 
-{
-    const worksFilterHotelsAndRestaurants = works.filter(function (work) 
-{
-        return work.category.name === "Hotels & restaurants"; 
-});
-    document.querySelector(".gallery").innerHTML = "";
-    generateWorks(worksFilterHotelsAndRestaurants);
-});
+      let _works;
 
-//gestion de la page si le token est stocké dans le local storage
-var getToken = sessionStorage.getItem('token');
+      if (category === "all")
+            _works = works;
+      else
+            _works = filterWorks(category);
+      
+      //creéation des works depuis JSON
+    for (let i=0; i < works.length; i++)
+    {
+        const article = _works[i];
+        
+        //création des balises
+        const img = document.createElement("img");
+              img.src = article.imageUrl;
 
+        const label = document.createElement("p");
+              label.textContent = article.title;
 
-if (getToken)
-{
-   //supprimer les boutons
-   document.querySelector(".filter").innerHTML = "";
-   
-   //ajouter les boutons modifier 
-   //1ere possibilité sur la création des boutons 
-    const imageButtonModify = document.createElement("img");
-          imageButtonModify.src = "P3/FrontEnd/assets/icons/Group.svg";
+        //création d'une balise dédiée à un projet
+        const workElement = document.createElement("article");
+              workElement.appendChild(img);
+              workElement.appendChild(label);
 
-    const nameButtonModify = document.createElement("p");
-          nameButtonModify.innerText = "modifier";
-
-    const buttonModify = document.createElement("button");
-          buttonModify.appendChild(imageButtonModify);
-          buttonModify.appendChild(nameButtonModify);
-
-    const sectionPortfolio = document.querySelector("#portfolio");
-          sectionPortfolio.appendChild(buttonModify);
-          
-
-   //ajouter le bandeau d'édition  
-
-} else {
-    //on supprimes les boutons modifier déja présent sur la page 
-    //2eme possibilités (plus pratique a mes yeux)
-    document.querySelector(".btnModifyProfile").innerHTML = "";
-    document.querySelector(".btnModifyProjects").innerHTML = "";
-    //j'ai crée 2 class différentes car autrement seulement un seul bouton disparaissait
+        //recuperation de l'élément du DOM qui acceuillera les travaux
+        const sectionGallery = document.querySelector(".gallery");
+              sectionGallery.appendChild(workElement);
+    }
 };
 
 
-//créer la modale
 
+
+//ADMINISTRATOR MODE
+//--
+
+/* CODE FACTORISER PAR CHAT GPT
+// Vérifie si 'token' existe et est vrai (non null, non undefined, non vide, etc.)
+if (token) {
+      // Fonction pour créer un bouton avec une image et le texte donné
+      function createButtonWithImage(text, imgSrc) {
+        const img = document.createElement("img");
+        img.src = imgSrc;
+    
+        const btn = document.createElement("button");
+        btn.innerText = text;
+        btn.prepend(img);
+    
+        return btn;
+      }
+    
+      // Supprime les boutons de filtre
+      document.querySelector(".filter").innerHTML = "";
+    
+      // Ajoute le bouton "Modifier" pour la section Portfolio
+      const btnPortfolio = createButtonWithImage("modifier", "./assets/icons/Group.svg");
+      const sectionPortfolio = document.querySelector("#portfolio");
+      sectionPortfolio.appendChild(btnPortfolio);
+      btnPortfolio.addEventListener("click", openModal);
+    
+      // Ajoute le bouton "Modifier" pour la section Introduction
+      const btnIntroduction = createButtonWithImage("modifier", "./assets/icons/Group.svg");
+      const sectionIntroduction = document.querySelector("#introduction");
+      sectionIntroduction.appendChild(btnIntroduction);
+    
+      // Ajoute la bannière d'édition
+      const label = document.createElement("p");
+      label.innerText = "Mode édition";
+    
+      const btnBanner = document.createElement("button");
+      btnBanner.innerText = "publier les changements";
+    
+      const banner = document.querySelector(".editionBanner");
+      banner.appendChild(createButtonWithImage("Mode édition", "./assets/icons/Group.svg"));
+      banner.appendChild(label);
+      banner.appendChild(btnBanner);
+    };*/
+    
+if (token)
+{
+   //Suppress Filter Buttons
+   document.querySelector(".filter").innerHTML = "";
+   
+   //MODIFY BUTTONS
+   //Porftofolio Button
+    const iconPortfolio = document.createElement("i");
+          iconPortfolio.classList.add("fa-regular", "fa-pen-to-square");
+
+    const btnPortfolio = document.createElement("button");
+          btnPortfolio.innerText = 'modifier';
+          btnPortfolio.prepend(iconPortfolio);
+
+    const sectionPortfolio = document.querySelector(".portfolioTitleAndButton");
+          sectionPortfolio.appendChild(btnPortfolio);
+
+
+   //Introduction Button
+
+    const iconIntroduction = document.createElement("i");
+          iconIntroduction.classList.add("fa-regular", "fa-pen-to-square");
+
+    const btnIntroduction = document.createElement("button");
+          btnIntroduction.innerText = 'modifier';
+          btnIntroduction.prepend(iconIntroduction);
+  
+    const sectionProfile = document.querySelector(".introductionButton")
+          sectionProfile.appendChild(btnIntroduction);
+
+
+   //Buttons Action
+
+   btnPortfolio.addEventListener("click",openModal)
+
+
+   //EDITION BANNER
+   //--
+
+   const icon = document.createElement("i");
+         icon.classList.add("fa-regular", "fa-pen-to-square");
+
+   const label = document.createElement("p");
+         label.innerText = 'Mode édition';
+
+   const btnBanner = document.createElement ("button");
+         btnBanner.innerText = 'publier les changements';
+
+   const banner = document.querySelector(".editionBanner");
+         banner.appendChild(icon)
+         banner.appendChild(label);
+         banner.appendChild(btnBanner);
+
+   
+} else {
+   //STYLE EDITION
+   //--
+
+   //Style nodes
+   const editionBanner = document.querySelector(".editionBanner");
+   const portfolioTitleAndButton = document.querySelector(".portfolioTitleAndButton");
+
+   //Desired Style if !token
+
+   editionBanner.style.display = "none";
+   portfolioTitleAndButton.style.marginRight = "0"
+};
+
+
+//MODALS
+//--
+
+//Modals Function
 let modal = null;
 
-const openModal = function (event)
+function openModal(event)
 {
     event.preventDefault()
     const target = document.querySelector(".modal");
@@ -137,7 +259,7 @@ const openModal = function (event)
 };
 
 
-const closeModal = function (event)
+function closeModal(event)
 {
         if (modal === null) return;
           event.preventDefault();
@@ -150,96 +272,7 @@ const closeModal = function (event)
           modal = null;
 };
 
-const stopPropagation = function (event)
-{
-    event.stopPropagation()
-}
-
-document.querySelector(".btnModifyProjects").addEventListener("click", openModal);
-
-window.addEventListener('keydown', function (event){
-      if (event.key === "Escape" || event.key === "Esc"){
-            closeModal(event)
-      }
-});
-
-//Creation de la gallery à l'interieur de la modale
-
-async function getAllWorksInModal ()
-{
-    // Récuperation des piéces depuis l'API
-    const response = await fetch (url);
-    works = await response.json();
-    generateWorksInModal(works);
-}
-
-(async function(){
-    await getAllWorksInModal();
-})();
-
-function generateWorksInModal(works)
-{
-    //creéation des works depuis JSON
-    for (let i=0; i < works.length; i++)
-    {
-        const article = works[i];
-        
-        //création des balises
-        const imageElement = document.createElement("img");
-              imageElement.src = article.imageUrl;
-
-        const nameElement = document.createElement("p");
-              nameElement.textContent = "éditer";
-      
-        const buttonElement = document.createElement("button");
-              buttonElement.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-              buttonElement.addEventListener("click", deleteWork);
-
-        //création d'une balise dédiée à un projet
-        const workElement = document.createElement("article");
-              workElement.appendChild(imageElement);
-              workElement.appendChild(nameElement);
-              workElement.appendChild(buttonElement);
-              
-        //recuperation de l'élément du DOM qui acceuillera les travaux
-        const sectionGallery = document.querySelector(".modalGallery");
-              sectionGallery.appendChild(workElement);
-    }
-};
-
-//création de la fonction de suppression de works via les button
-
-async function deleteWork (event) 
-{
-      //Annule le rechargement de la page instant
-      event.preventDefault();
-
-      //identifier le projet a supprimer
-      let workId = event.target.closest(works).id; 
-
-      console.log(workId);
-
-      //on appelle la methode fetch et fournie l'authorisation de supprimer via le token 
-      const response = await fetch(`http://localhost:5678/api/works/${workId}`,
-      {
-            method: "DELETE",
-            headers: {
-                  Authorization: `Bearer ${getToken}`
-            },
-      });
-
-      if (response.status === 200) {
-            console.log("le projet a été supprimé avec succès !");
-            event.target.closest("article").remove();
-      }
-      else
-      {
-            alert ("Une erreur s'est produite lors de la suppression du projet !")
-      }
-};
-
-//fermeture de la premiere modale et ouverture de la seconde
-const openModal2 = function(event) 
+function openModal2(event) 
 {    
       event.preventDefault()
       closeModal(event);
@@ -251,9 +284,13 @@ const openModal2 = function(event)
       modal.addEventListener("click", closeModal2);
       modal.querySelector(".modalCloser").addEventListener("click", closeModal2);
       modal.querySelector("#modalStopPropagation").addEventListener("click", stopPropagation);
+      modal.querySelector(".backButton").addEventListener("click", () => {
+            closeModal2(event);
+            openModal(event);
+          });
 };
 
-const closeModal2 = function (event)
+function closeModal2(event)
 {
         if (modal === null) return;
           event.preventDefault();
@@ -263,8 +300,29 @@ const closeModal2 = function (event)
           modal.removeEventListener("click", closeModal2);
           modal.querySelector(".modalCloser").removeEventListener("click", closeModal2);
           modal.querySelector("#modalStopPropagation").removeEventListener("click", stopPropagation);
+          modal.querySelector(".backButton").removeEventListener("click", () => {
+            closeModal2(event);
+            openModal(event);
+          });
           modal = null;
 };
+
+
+//Stop Modal close by clicking on it 
+const stopPropagation = function (event)
+{
+    event.stopPropagation()
+}
+
+
+//Modal exit (Keyboard)
+window.addEventListener('keydown', function (event){
+      if (event.key === "Escape" || event.key === "Esc"){
+            closeModal(event)
+      }
+});
+
+//Modal "switch"
 
 document.querySelector("#addPicture").addEventListener("click", openModal2);
 
@@ -274,7 +332,94 @@ window.addEventListener('keydown', function (event){
       }
 });
 
-//Creation de la fonction permettant d'ajouter un projet
+
+//MODAL GALLERY
+//--
+
+
+async function getModalContent ()
+{
+    // Récuperation des piéces depuis l'API
+    const response = await fetch (url);
+    works = await response.json();
+    generateModalContent(works);
+}
+
+(async function(){
+    await getModalContent();
+})();
+
+function generateModalContent(works)
+{
+      //create works in modal from json
+    for (let i=0; i < works.length; i++)
+    {
+        const article = works[i];
+        
+        //création des balises
+        const img = document.createElement("img");
+              img.src = article.imageUrl;
+
+        const label = document.createElement("p");
+              label.textContent = "éditer";
+      
+        const btn = document.createElement("button");
+              btn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+              btn.addEventListener("click", () => deleteWork(article._id));
+
+        //création d'une balise dédiée à un projet
+        const workElement = document.createElement("article");
+              workElement.appendChild(img);
+              workElement.appendChild(label);
+              workElement.appendChild(btn);
+              
+        //recuperation de l'élément du DOM qui acceuillera les travaux
+        const modalGallery = document.querySelector(".modalGallery");
+              modalGallery.appendChild(workElement);
+    }
+};
+
+
+
+
+//DELETE WORKS
+//--
+
+async function deleteWork (work) 
+{
+      event.preventDefault();
+
+      //identify closest work to the button
+      let workId = event.target.closest(works).id;
+
+      //suppress work in api
+      const response = await fetch(`http://localhost:5678/api/works/${workId}`,
+      {
+            method: "DELETE",
+            headers: {
+                  Authorization: `Bearer ${token}`
+            },
+      });
+
+      //sucess conditions
+      if (response.status === 200) {
+            console.log("le projet a été supprimé avec succès !");
+            event.target.closest("article").remove();
+      }
+      else
+      {
+            alert ("Une erreur s'est produite lors de la suppression du projet !")
+      }
+};
+
+//DELETE EVERY WORKS
+//--
+
+
+
+//ADD WORKS
+//--
+
   const form = document.querySelector('form');
   form.addEventListener('submit', createWorks);
 
@@ -297,7 +442,7 @@ async function createWorks(event)
             headers: 
             {
                   "content-type": "application/json",
-                  Authorization: `Bearer ${getToken}`
+                  Authorization: `Bearer ${token}`
             },
             body: JSON.stringify(data)
       });
@@ -310,5 +455,5 @@ async function createWorks(event)
       {
             alert ("Une erreur s'est produite lors de la création du projet !")
       }
-}
+};
 // coder une partie pour supprimer le token du localStorage (se deconnecter)
