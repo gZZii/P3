@@ -128,47 +128,6 @@ function getWorks(category)
 //ADMINISTRATOR MODE
 //--
 
-/* CODE FACTORISER PAR CHAT GPT
-// Vérifie si 'token' existe et est vrai (non null, non undefined, non vide, etc.)
-if (token) {
-      // Fonction pour créer un bouton avec une image et le texte donné
-      function createButtonWithImage(text, imgSrc) {
-        const img = document.createElement("img");
-        img.src = imgSrc;
-    
-        const btn = document.createElement("button");
-        btn.innerText = text;
-        btn.prepend(img);
-    
-        return btn;
-      }
-    
-      // Supprime les boutons de filtre
-      document.querySelector(".filter").innerHTML = "";
-    
-      // Ajoute le bouton "Modifier" pour la section Portfolio
-      const btnPortfolio = createButtonWithImage("modifier", "./assets/icons/Group.svg");
-      const sectionPortfolio = document.querySelector("#portfolio");
-      sectionPortfolio.appendChild(btnPortfolio);
-      btnPortfolio.addEventListener("click", openModal);
-    
-      // Ajoute le bouton "Modifier" pour la section Introduction
-      const btnIntroduction = createButtonWithImage("modifier", "./assets/icons/Group.svg");
-      const sectionIntroduction = document.querySelector("#introduction");
-      sectionIntroduction.appendChild(btnIntroduction);
-    
-      // Ajoute la bannière d'édition
-      const label = document.createElement("p");
-      label.innerText = "Mode édition";
-    
-      const btnBanner = document.createElement("button");
-      btnBanner.innerText = "publier les changements";
-    
-      const banner = document.querySelector(".editionBanner");
-      banner.appendChild(createButtonWithImage("Mode édition", "./assets/icons/Group.svg"));
-      banner.appendChild(label);
-      banner.appendChild(btnBanner);
-    };*/
     
 if (token)
 {
@@ -362,20 +321,36 @@ function generateModalContent(works)
 
         const label = document.createElement("p");
               label.textContent = "éditer";
-      
-        const btn = document.createElement("button");
-              btn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-              btn.addEventListener("click", () => deleteWork(article._id));
 
+        //création des boutons sur chaque article
+        const btn = document.createElement("button");
+              btn.dataset.workId = article.id;
+              btn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+              btn.addEventListener("click", deleteWork);
+
+        const btnMove = document.createElement("button");
+              btnMove.innerHTML = '<i class="fa-solid fa-up-down-left-right"></i>';
+              btnMove.style.display = 'none';
+              
         //création d'une balise dédiée à un projet
         const workElement = document.createElement("article");
               workElement.appendChild(img);
               workElement.appendChild(label);
               workElement.appendChild(btn);
+              workElement.appendChild(btnMove);
               
         //recuperation de l'élément du DOM qui acceuillera les travaux
         const modalGallery = document.querySelector(".modalGallery");
               modalGallery.appendChild(workElement);
+
+        // Gestion de l'affichage du bouton de suppression au survol de l'article
+    workElement.addEventListener("mouseenter", () => {
+      btnMove.style.display = "flex";
+      btnMove.style.right = "30px";
+    });
+    workElement.addEventListener("mouseleave", () => {
+      btnMove.style.display = "none";
+    });
     }
 };
 
@@ -385,12 +360,13 @@ function generateModalContent(works)
 //DELETE WORKS
 //--
 
-async function deleteWork (work) 
+async function deleteWork (event) 
 {
       event.preventDefault();
 
       //identify closest work to the button
-      let workId = event.target.closest(works).id;
+      const btn = event.target.parentNode;
+      const workId = btn.dataset.workId
 
       //suppress work in api
       const response = await fetch(`http://localhost:5678/api/works/${workId}`,
@@ -402,7 +378,8 @@ async function deleteWork (work)
       });
 
       //sucess conditions
-      if (response.status === 200) {
+      if (response.ok
+            ) {
             console.log("le projet a été supprimé avec succès !");
             event.target.closest("article").remove();
       }
@@ -420,15 +397,46 @@ async function deleteWork (work)
 //ADD WORKS
 //--
 
-  const form = document.querySelector('form');
-  form.addEventListener('submit', createWorks);
 
-async function createWorks(event)
-{
-      event.preventDefault();
-      const form = event.target;
+      //Creation de la fonction premettant de valider l'envoi du formulaire
+      //Form nodes
+      
+      const form = document.querySelector('addWorkForm');
+      const formPhoto = document.getElementById('formPhoto');
+      const formTitle = document.getElementById('title');
+      const formCategory = document.getElementById('category');
+      const btnValidate = document.getElementById('btnValidate'); // "Add Work" button
+
+      // Event listeners for form input fields to track changes
+
+      formImage.addEventListener('input', validateForm);
+      formTitre.addEventListener('input', validateForm);
+      formCategory.addEventListener('input', validateForm);
+
+      // Function to check form state and enable/disable the "Add Work" button accordingly
+
+      function validateForm() {
+            if (formImage.value.trim() !== '' && formTitre.value.trim() !== '' && formCategory.value.trim() !== '') 
+            {
+                  btnValidate.disabled = false;
+                  btnValidate.style.backgroundColor = "#1D6154";
+            } else {
+                  btnValidate.disabled = true;
+                  btnValidate.style.backgroundColor = "#A7A7A7";
+            }
+            console.log("Fonction validateForm appelée !");
+      };
+
+      // Event listener for form submission
+
+      form.addEventListener('submit', createWorks);
+
+
+      async function createWorks(event) {
+        event.preventDefault();
+
       const image = form.image.src
-      const titre = form.titre.value
+      const title = form.title.value
       const category = form.category.value
 
       const data = {
@@ -449,11 +457,11 @@ async function createWorks(event)
 
       if (response.status === 201)
       {
-            console.log("le projet a été crée avec succès !")
+            console.log("le projet a été crée avec succès !");
+            form.reset();
       }
       else
       {
             alert ("Une erreur s'est produite lors de la création du projet !")
       }
 };
-// coder une partie pour supprimer le token du localStorage (se deconnecter)

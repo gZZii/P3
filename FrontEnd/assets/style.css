@@ -72,6 +72,8 @@ header a {
 	gap: 1em;
 	height: 4em;
 	align-items: center;
+	width: 100vw;
+	margin-left : calc(-1 * ((100vw - 100%) / 2));
 }
 
 .editionBanner i {
@@ -233,7 +235,7 @@ li:visited {
 .modal2 {
 	position: fixed;
 	display: none;
-	align-items: center;
+	align-items: flex;
 	justify-content: center;
 	top: 0;
 	left: 0;
@@ -244,7 +246,6 @@ li:visited {
 
 .modalWrapper {
 	position: relative;
-	overflow: auto;
 	height: 45rem;
 	width: 40rem;
 	padding: 5em;
@@ -254,7 +255,7 @@ li:visited {
 }
 
 .modalWrapper2 {
-	overflow: auto;
+	position: relative;
 	height: 45rem;
 	width: 40rem;
 	padding: 5em;
@@ -286,12 +287,13 @@ li:visited {
 }
 
 .modalGallery button {
-	position: absolute;
+  position: absolute;
   top: 3px; /* Positionner le bouton en haut */
   right: 4px; /* Positionner le bouton à droite */
   background-color: black;
   color: white;
   border: none;
+  border-radius: 5px;
   padding: 5px 10px;
   font-size: 14px;
   cursor: pointer;
@@ -300,6 +302,11 @@ li:visited {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+
+.btnMove :hover {
+	display: flex;
 }
 
 .modalGallery img {
@@ -313,6 +320,7 @@ li:visited {
 	padding: 3.75rem;
 	font-size: 26px
 }
+
 
 .editProjects {
 	display: flex;
@@ -338,6 +346,130 @@ li:visited {
 	font-family: "Work Sans";
 	color: #D65353;
 }
+
+.backButton {
+	position: absolute;
+	top: 26px;
+	left: 30px;
+	background-color: white;
+	border:none;
+	cursor: pointer;
+	height: 1.5rem;
+	width: 1.5rem;
+}
+
+.modalWrapper2 h3{
+	display: flex;
+	justify-content: center;
+	font-size: 26px;
+	margin-bottom: 5rem;
+}
+
+.form {
+	text-align: left;
+	margin-top:30px;
+	margin-bottom: 3rem;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	font-family: "Work Sans";
+	padding: 0 6.5rem;
+	gap: 1.2rem;
+}
+
+.form label {
+	font-size: 14px;
+	font-weight: 500;
+	color: #3D3D3D;
+}
+
+
+#iconForm {
+	font-size: 500%;
+	display :flex;
+	justify-content: center;
+	margin-top: 0.5rem;
+	color:#A7A7A7
+}
+
+#image {
+    display: flex;
+	justify-content: center;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+}
+
+#imageUpload {
+    display: none;
+}
+
+.addWorkImage {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	color: #306685;
+	font-weight: 500;
+	font-size: 14px;
+	background-color: #CBD6DC;
+	width: 10.5rem;
+	height: 2.25rem;
+	border-radius: 50px;
+}
+
+.imageUpload {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+    background-color:#E8F1F6;
+    width: 100%;
+    height: 11rem;
+	border-radius: 3px;
+	padding-top: 0.5rem;
+	gap: 1rem;
+}
+
+.imageUpload p {
+	color: #444;
+	text-align: center;
+	font-size: 10px;
+	font-weight: 400;
+	line-height: normal;
+}
+
+#titre {
+	width: 100%;
+	height: 3.2rem;
+	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+	border: none;
+}
+
+#category {
+	width: 100%;
+	height: 3.2rem;
+	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+	border: none;
+}
+
+hr {
+	width: 68%;
+}
+
+#btnValidate {
+	background-color: #A7A7A7;
+	width: 15rem;
+	height: 2.25rem;
+	border: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 3rem;
+}
+
+
 
 /* Ajout de la partie filtre */
 .filter {

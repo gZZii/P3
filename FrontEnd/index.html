@@ -18,6 +18,7 @@
 
   <header>
     <div class="editionBanner"></div>
+    <div class = container>
     <div class = "headerNav">
     <h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
     <nav>
@@ -67,26 +68,42 @@
         </aside>
 
         <aside class="modal2" aria-hidden="true" aria-modal="false">
-        <div class="modalWrapper2" id="modalStopPropagation">
-            <div class = modalNav>
-              <button class = "backButton"><i class="fa-solid fa-arrow-left"></i></button>
-              <button class = "modalCloser"><i class="fa-solid fa-xmark"></i></button> 
-            </div>
-            <div class="modalBody">
-            <h3>Ajout photo</h3>
-            <form class="form" action="#" method="post">
-              <label for="image"><i class="fa-sharp fa-light fa-image"></i></label>
-              <input type="file" id="image" name="image">
-              <label for="titre">Titre</label>
-              <input type="text" name="titre" id="titre">
-              <label for="category">Catégorie</label>
-              <input type="text" name="category" id="category">
-              <input type="submit" value="Valider" aria-label="Envoyer le formulaire de connection">
-            </form>
-            </div>
-          </aside>
-          </div>
+          <div class="modalWrapper2" id="modalStopPropagation">
 
+              <div class = modalNav>
+                <button class = "backButton"><i class="fa-solid fa-arrow-left"></i></button>
+                <button class = "modalCloser"><i class="fa-solid fa-xmark"></i></button> 
+              </div>
+
+              <div class="modalBody">
+              <h3>Ajout photo</h3>
+
+              <form class="form" action="#" method="post">
+                
+                <div class="imageUpload">
+                <i id= "iconForm" class="fa-sharp fa-regular fa-image image-upload-icone"></i>
+                <label class="addWorkImage" for="imageUpload">+Ajouter une photo</label>
+                <input type="file" id="imageUpload" name="imageUpload" max-size=""4000" accept=".jpg, jpeg, .png" multiple>
+                <p class="txtImgUpload">jpg, png : 4mo max</p>
+                </div>
+      
+                <label for="titre">Titre</label>
+                <input type="text" name="titre" id="titre">
+      
+                <label for="category">Catégorie</label>
+                <select type="text" name="category" id="category">
+                  <option value="null"></option>
+                  <option value="Objets">Objets</option>
+                  <option value="Appartements">Appartements</option>
+                  <option value="Hotels & restaurants">Hotels & restaurants</option>
+                </select>
+              </form>
+              <hr>
+                <input id="btnValidate" type="submit" value="Valider" aria-label="Envoyer le formulaire de connection">
+              </div>
+            </aside>
+
+          </div>
       </div>
 
       <div class="filter">
