@@ -397,26 +397,36 @@ async function deleteWork (event)
 //ADD WORKS
 //--
 
-
-      //Creation de la fonction premettant de valider l'envoi du formulaire
       //Form nodes
       
-      const form = document.querySelector('addWorkForm');
-      const formPhoto = document.getElementById('formPhoto');
-      const formTitle = document.getElementById('title');
+      const form = document.querySelector('.form');
+      const formImage = document.getElementById('imageUpload');
+      const formTitle = document.getElementById('titre');
       const formCategory = document.getElementById('category');
       const btnValidate = document.getElementById('btnValidate'); // "Add Work" button
-
+      var   previewImage = document.getElementById('#previewImage');
       // Event listeners for form input fields to track changes
 
       formImage.addEventListener('input', validateForm);
-      formTitre.addEventListener('input', validateForm);
+      formTitle.addEventListener('input', validateForm);
       formCategory.addEventListener('input', validateForm);
+
+      //Function to show the chosen img in the form
+
+      var previewPicture = function (event)
+      {
+            const [picture] = event.files
+
+            if (picture) {
+                  previewImage.src = URL.createObjectURL(picture)
+            }
+      }
+      
 
       // Function to check form state and enable/disable the "Add Work" button accordingly
 
       function validateForm() {
-            if (formImage.value.trim() !== '' && formTitre.value.trim() !== '' && formCategory.value.trim() !== '') 
+            if (formImage.value.trim() !== '' && formTitle.value.trim() !== '' && formCategory.value.trim() !== '') 
             {
                   btnValidate.disabled = false;
                   btnValidate.style.backgroundColor = "#1D6154";
@@ -435,9 +445,9 @@ async function deleteWork (event)
       async function createWorks(event) {
         event.preventDefault();
 
-      const image = form.image.src
-      const title = form.title.value
-      const category = form.category.value
+      const image = formImage.files[0];
+      const titre = formTitle.value
+      const category = formCategory.value
 
       const data = {
             image: image,
