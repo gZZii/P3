@@ -82,21 +82,21 @@
                 
                 <div class="uploadingImage">
                 <i id= "iconForm" class="fa-sharp fa-regular fa-image image-upload-icone"></i>
-                <label class="addWorkImage" for="imageUpload">+Ajouter une photo</label>
-                <input type="file" id="imageUpload" name="imageUpload" >
+                <label class="addWorkImage" for="image">+Ajouter une photo</label>
+                <input type="file" id="image" name="image" accept="image/*">
                 <p class="txtImgUpload">jpg, png : 4mo max</p>
                 <img src="#" id="previewImage" alt="image choisie">
                 </div>
       
                 <label for="titre">Titre</label>
-                <input type="text" name="titre" id="titre">
+                <input type="text" name="title" id="titre">
       
                 <label for="category">Catégorie</label>
                 <select type="text" name="category" id="category">
                   <option value="null"></option>
-                  <option value="Objets">Objets</option>
-                  <option value="Appartements">Appartements</option>
-                  <option value="Hotels & restaurants">Hotels & restaurants</option>
+                  <option value="1">Objets</option>
+                  <option value="2">Appartements</option>
+                  <option value="3">Hotels & restaurants</option>
                 </select>
                 <hr>
                 <input id="btnValidate" type="submit" value="Valider" aria-label="Envoyer le formulaire de connection">

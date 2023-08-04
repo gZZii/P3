@@ -402,7 +402,7 @@ label {
     flex-direction: column;
 }
 
-#imageUpload {
+#image {
     display: none;
 }
 
@@ -431,7 +431,7 @@ label {
 	gap: 1rem;
 }
 
-.imageUpload p {
+.image p {
 	color: #444;
 	text-align: center;
 	font-size: 10px;

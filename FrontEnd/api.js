@@ -403,7 +403,7 @@ async function deleteWork (event)
       const iconForm = document.getElementById("iconForm");
       const label = document.querySelector(".addWorkImage");
       const pForm = document.querySelector(".txtImgUpload")
-      const imageUpload = document.getElementById('imageUpload'); // = nvFichier
+      const image = document.getElementById('image'); // = nvFichier
       const formTitle = document.getElementById('titre');
       const formCategory = document.getElementById('category');
       const btnValidate = document.getElementById('btnValidate'); // "Add Work" button
@@ -411,13 +411,13 @@ async function deleteWork (event)
       
       // Event listeners for form input fields to track changes
 
-      imageUpload.addEventListener('input', validateForm);
+      image.addEventListener('input', validateForm);
       formTitle.addEventListener('input', validateForm);
       formCategory.addEventListener('input', validateForm);
 
       //Function to show the chosen img in the form
 
-      imageUpload.addEventListener('change', function ()
+      image.addEventListener('change', function ()
       {
             const file = this.files [0];
 
@@ -446,7 +446,7 @@ async function deleteWork (event)
       // Function to check form state and enable/disable the "Add Work" button accordingly
 
       function validateForm() {
-            if (imageUpload.value.trim() !== '' && formTitle.value.trim() !== '' && formCategory.value.trim() !== '') 
+            if (image.value.trim() !== '' && formTitle.value.trim() !== '' && formCategory.value.trim() !== '') 
             {
                   btnValidate.disabled = false;
                   btnValidate.style.backgroundColor = "#1D6154";
@@ -460,28 +460,28 @@ async function deleteWork (event)
       // Event listener for form submission
 
 
-      async function createWorks(event) {
+     /* async function createWorks(event) {
         event.preventDefault();
+        console.log(event)
 
-      const image = imageUpload.files[0];
+      const selectedImage = image.files[0];
       const titre = formTitle.value
       const category = formCategory.value
 
-      const data = {
-            image: image,
-            titre: titre,
-            category: category,
-      }
+      const formData = new FormData();
+      formData.append('image', selectedImage);
+      formData.append('title', titre);
+      formData.append('category', category);
 
-      const response = await fetch("http://localhost:5678/api/works",{
-            method: "POST",
-            headers: 
-            {
-                  "content-type": "application/json",
-                  Authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify(data)
-      });
+
+      await fetch("http://localhost:5678/api/works",{
+      method: "POST",
+      headers: {
+            Authorization: `Bearer ${token}`
+      },
+      body: formData,
+});
+console.log(formData)
 
       if (response.status === 201)
       {
@@ -491,8 +491,85 @@ async function deleteWork (event)
       else
       {
             alert ("Une erreur s'est produite lors de la création du projet !")
+            console.error(response.status)
+            console.error(await response.text());
       }
+      
       console.log(createWorks)
-};
+};*/
+
+
+
+
+
+
+
+
+
+/*document.querySelector(".form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      
+      const selectedImage = image.files[0];
+      const titre = formTitle.value
+      const category = formCategory.value
+  
+      const formData = new FormData();
+      formData.append('image', selectedImage);
+      formData.append('title', titre);
+      formData.append('category', category);
+  
+      fetch("http://localhost:5678/api/works", {
+          method: "POST",
+          headers: {
+              accept: 'application/json',
+              Authorization: `Bearer ${token}`
+          },
+          body: formData,
+      })
+      .then(res => res.json())
+      .then(data => {
+          getAllWorks();
+      })
+      .catch(error => console.log(error));
+  });*/
+
+
+  
+  async function createWorks(event) {
+      event.preventDefault();
+    
+      const selectedImage = image.files[0];
+      const titre = formTitle.value;
+      const category = parseInt(formCategory.value, 10);
+    
+      const formData = new FormData();
+      formData.append('image', selectedImage);
+      formData.append('title', titre);
+      formData.append('category', category);
+    
+      
+        const response = await fetch("http://localhost:5678/api/works", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        });
+    
+        if (response.status === 201) {
+          console.log("Le projet a été créé avec succès !");
+          form.reset();
+          closeModal2(event); // Fermer le modal après la création réussie
+          await getAllWorks(); // Mettre à jour la galerie avec le nouveau travail
+        } else {
+          alert("Une erreur s'est produite lors de la création du projet !");
+          console.error(response.status);
+          console.error(await response.text());
+        }
+    }
+    
+
+
 
 form.addEventListener('submit', createWorks);
+
