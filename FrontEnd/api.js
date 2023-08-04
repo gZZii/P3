@@ -400,33 +400,53 @@ async function deleteWork (event)
       //Form nodes
       
       const form = document.querySelector('.form');
-      const formImage = document.getElementById('imageUpload');
+      const iconForm = document.getElementById("iconForm");
+      const label = document.querySelector(".addWorkImage");
+      const pForm = document.querySelector(".txtImgUpload")
+      const imageUpload = document.getElementById('imageUpload'); // = nvFichier
       const formTitle = document.getElementById('titre');
       const formCategory = document.getElementById('category');
       const btnValidate = document.getElementById('btnValidate'); // "Add Work" button
-      var   previewImage = document.getElementById('#previewImage');
+      const previewImage = document.getElementById('previewImage'); // = imgDw
+      
       // Event listeners for form input fields to track changes
 
-      formImage.addEventListener('input', validateForm);
+      imageUpload.addEventListener('input', validateForm);
       formTitle.addEventListener('input', validateForm);
       formCategory.addEventListener('input', validateForm);
 
       //Function to show the chosen img in the form
 
-      var previewPicture = function (event)
+      imageUpload.addEventListener('change', function ()
       {
-            const [picture] = event.files
+            const file = this.files [0];
 
-            if (picture) {
-                  previewImage.src = URL.createObjectURL(picture)
+            if(file){
+
+                  const analyzer = new FileReader();
+                  
+                  pForm.style.display = "none"
+                  label.style.display = "none"
+                  iconForm.style.display = "none"
+                  previewImage.style.display = "flex";
+
+                  analyzer.readAsDataURL(file);
+
+                  analyzer.addEventListener("load", function()
+                  {
+                        previewImage.setAttribute("src", this.result);
+                  })
+
             }
-      }
+
       
+      })
+
 
       // Function to check form state and enable/disable the "Add Work" button accordingly
 
       function validateForm() {
-            if (formImage.value.trim() !== '' && formTitle.value.trim() !== '' && formCategory.value.trim() !== '') 
+            if (imageUpload.value.trim() !== '' && formTitle.value.trim() !== '' && formCategory.value.trim() !== '') 
             {
                   btnValidate.disabled = false;
                   btnValidate.style.backgroundColor = "#1D6154";
@@ -439,13 +459,11 @@ async function deleteWork (event)
 
       // Event listener for form submission
 
-      form.addEventListener('submit', createWorks);
-
 
       async function createWorks(event) {
         event.preventDefault();
 
-      const image = formImage.files[0];
+      const image = imageUpload.files[0];
       const titre = formTitle.value
       const category = formCategory.value
 
@@ -474,4 +492,7 @@ async function deleteWork (event)
       {
             alert ("Une erreur s'est produite lors de la création du projet !")
       }
+      console.log(createWorks)
 };
+
+form.addEventListener('submit', createWorks);

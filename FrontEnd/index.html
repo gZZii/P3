@@ -80,12 +80,12 @@
 
               <form class="form" action="#" method="post">
                 
-                <div class="imageUpload">
+                <div class="uploadingImage">
                 <i id= "iconForm" class="fa-sharp fa-regular fa-image image-upload-icone"></i>
                 <label class="addWorkImage" for="imageUpload">+Ajouter une photo</label>
-                <input type="file" id="imageUpload" name="imageUpload" onchange="previewPicture(this)">
+                <input type="file" id="imageUpload" name="imageUpload" >
                 <p class="txtImgUpload">jpg, png : 4mo max</p>
-                <img src="#" id="previewImage" alt="">
+                <img src="#" id="previewImage" alt="image choisie">
                 </div>
       
                 <label for="titre">Titre</label>
@@ -98,12 +98,11 @@
                   <option value="Appartements">Appartements</option>
                   <option value="Hotels & restaurants">Hotels & restaurants</option>
                 </select>
-                <button type="button" id="btnValidate" onclick="createWorks()" aria-label="Envoyer le formulaire de connection">
-                  Valider
-                </button>
+                <hr>
+                <input id="btnValidate" type="submit" value="Valider" aria-label="Envoyer le formulaire de connection">
               </form>
-              <!--<hr>
-                <input id="btnValidate" type="submit" value="Valider" aria-label="Envoyer le formulaire de connection">-->
+              
+                
               </div>
             </aside>
 
