@@ -259,6 +259,7 @@ li:visited {
 	height: 45rem;
 	width: 40rem;
 	padding: 5em;
+	margin-top: 2rem;
 	border-radius: 10px;
 	background-color: white;
 	box-sizing:content-box
@@ -277,13 +278,16 @@ li:visited {
 
 
 .modalGallery {
-	display: grid;
-	grid-template-columns: repeat(5, 1fr);
-	grid-gap: 20px;
+	display: flex;
+	gap: 20px;
+	flex-wrap: wrap;
+	margin-left: 4rem;
 }
 
 .modalGallery article {
 	position: relative;
+	width: 15%;
+	height: 30%;
 }
 
 .modalGallery button {
@@ -317,9 +321,11 @@ li:visited {
 .modalWrapper h3{
 	display: flex;
 	justify-content: center;
-	padding: 3.75rem;
+	padding: 2.75rem;
 	font-size: 26px
 }
+
+
 
 
 .editProjects {
@@ -329,8 +335,9 @@ li:visited {
 	align-items: center;
 	gap: 2rem;
 	padding: 3rem;
-	margin: 1rem;
-	margin-top:5em;
+	margin-top: 2rem;
+	margin-left: 3.75rem;
+	margin-right: 3.75rem;
 	border-top: 1px #B3B3B3 solid;
 }
 
@@ -363,6 +370,7 @@ li:visited {
 	justify-content: center;
 	font-size: 26px;
 	margin-bottom: 5rem;
+	padding-top: 2.75rem;
 }
 
 .form {
@@ -455,19 +463,8 @@ label {
 	font-family: "Work Sans";
 	font-size: 14px;
 	font-weight: 400;
-	position: relative;
 }
 
-#titre::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: transparent;
-    pointer-events: none; /* Permet de cliquer à travers le pseudo-élément */
-}
 
 #category {
 	width: 100%;
@@ -480,8 +477,9 @@ label {
 }
 
 hr {
-	width: 68%;
+	width: 100%;
 	color: #B3B3B3;
+	margin-top: 2.5rem;
 }
 
 #btnValidate {
@@ -492,7 +490,7 @@ hr {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: 3rem;
+	margin-top: 1rem;
 	cursor: pointer;
 }
 
