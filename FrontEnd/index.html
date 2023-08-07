@@ -18,19 +18,20 @@
 
   <header>
     <div class="editionBanner"></div>
-    <div class = container>
-    <div class = "headerNav">
-    <h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">projets</a></li>
-        <li><a href="#">contact</a></li>
-        <li><a href="login.html">login</a></li>
-        <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
-      </ul>
-    </nav>
-  </div>
+    <div class=container>
+      <div class="headerNav">
+        <h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
+        <nav>
+          <ul>
+            <li><a href="index.html">projets</a></li>
+            <li><a href="#">contact</a></li>
+            <li><a href="login.html">login</a></li>
+            <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
+          </ul>
+        </nav>
+      </div>
   </header>
+  
 
   <main>
 
@@ -49,64 +50,64 @@
         <p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée: architecte DPLG, décorateur(trice)</p>
       </article>
     </section>
-    <div class = introductionButton></div>
-    
+    <div class=introductionButton></div>
+
     <section id="portfolio">
       <div class="portfolioTitleAndButton">
         <h2>Mes Projets</h2>
       </div>
-        <aside class="modal" aria-hidden="true" aria-modal="false">
-          <div class="modalWrapper" id="modalStopPropagation">
-            <button class = "modalCloser"><i class="fa-solid fa-xmark"></i></button>
-            <h3>Galerie Photo</h3>
-            <div class="modalGallery"></div>
-            <div class="editProjects">
+      <aside class="modal" aria-hidden="true" aria-modal="false">
+        <div class="modalWrapper" id="modalStopPropagation">
+          <button class="modalCloser"><i class="fa-solid fa-xmark"></i></button>
+          <h3>Galerie Photo</h3>
+          <div class="modalGallery"></div>
+          <div class="editProjects">
             <button id="addPicture" class="buttonsFilter">Ajouter une photo</button>
             <button id="suppressGallery" class="buttonSupressGallery">Supprimer la galerie</button>
           </div>
+        </div>
+      </aside>
+
+      <aside class="modal2" aria-hidden="true" aria-modal="false">
+        <div class="modalWrapper2" id="modalStopPropagation">
+
+          <div class=modalNav>
+            <button class="backButton"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="modalCloser"><i class="fa-solid fa-xmark"></i></button>
           </div>
-        </aside>
 
-        <aside class="modal2" aria-hidden="true" aria-modal="false">
-          <div class="modalWrapper2" id="modalStopPropagation">
+          <div class="modalBody">
+            <h3>Ajout photo</h3>
 
-              <div class = modalNav>
-                <button class = "backButton"><i class="fa-solid fa-arrow-left"></i></button>
-                <button class = "modalCloser"><i class="fa-solid fa-xmark"></i></button> 
-              </div>
+            <form class="form" action="#" method="post">
 
-              <div class="modalBody">
-              <h3>Ajout photo</h3>
-
-              <form class="form" action="#" method="post">
-                
-                <div class="uploadingImage">
-                <i id= "iconForm" class="fa-sharp fa-regular fa-image image-upload-icone"></i>
+              <div class="uploadingImage">
+                <i id="iconForm" class="fa-sharp fa-regular fa-image image-upload-icone"></i>
                 <label class="addWorkImage" for="image">+Ajouter une photo</label>
                 <input type="file" id="image" name="image" accept="image/*">
                 <p class="txtImgUpload">jpg, png : 4mo max</p>
                 <img src="#" id="previewImage" alt="image choisie">
-                </div>
-      
-                <label for="titre">Titre</label>
-                <input type="text" name="title" id="titre">
-      
-                <label for="category">Catégorie</label>
-                <select type="text" name="category" id="category">
-                  <option value="null"></option>
-                  <option value="1">Objets</option>
-                  <option value="2">Appartements</option>
-                  <option value="3">Hotels & restaurants</option>
-                </select>
-                <hr>
-                <input id="btnValidate" type="submit" value="Valider" aria-label="Envoyer le formulaire de connection">
-              </form>
-              
-                
               </div>
-            </aside>
+
+              <label for="titre">Titre</label>
+              <input type="text" name="title" id="titre">
+
+              <label for="category">Catégorie</label>
+              <select type="text" name="category" id="category">
+                <option value="null"></option>
+                <option value="1">Objets</option>
+                <option value="2">Appartements</option>
+                <option value="3">Hotels & restaurants</option>
+              </select>
+              <hr>
+              <input id="btnValidate" type="submit" value="Valider" aria-label="Envoyer le formulaire de connection">
+            </form>
+
 
           </div>
+      </aside>
+
+      </div>
       </div>
 
       <div class="filter">

@@ -1,5 +1,6 @@
 "use strict";
 
+//Execute onSubmit when form is
 (() => {
   const form = document.querySelector('form');
   form.addEventListener('submit', onSubmit);
@@ -7,19 +8,18 @@
 
 async function onSubmit(event)
 {
-  //Annule le submit du formulaire
+  //cancel default submit push 
   event.preventDefault();
 
-  //le formulaire
+  //form nodes
   const form = event.target;
-
   const email = form.email.value;
   const password = form.password.value;
-
   const data = {
     email: email,
     password: password,
   }
+  
   
   const response = await fetch(" http://localhost:5678/api/users/login",{
     method: "POST",

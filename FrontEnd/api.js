@@ -45,7 +45,7 @@ function generateWorks(works)
     const label = document.createElement("p");
     label.textContent = article.title;
 
-    //work Tag
+    //building the entire article
     const workElement = document.createElement("article");
     workElement.appendChild(img);
     workElement.appendChild(label);
@@ -152,11 +152,8 @@ if (token) {
   btnPortfolio.innerText = "modifier";
   btnPortfolio.prepend(iconPortfolio);
 
-
   const sectionPortfolio = document.querySelector(".portfolioTitleAndButton");
   sectionPortfolio.appendChild(btnPortfolio);
-
-
 
 
       //Introduction Button
@@ -221,11 +218,12 @@ if (token) {
 //MODALS CREATION
 //--
 
-//Modals Function
-
 let modal = null;
 
-function openModal(event) {
+
+//MODAL Opening and closing 
+function openModal(event) 
+{
   event.preventDefault();
   const target = document.querySelector(".modal");
   target.style.display = "flex";
@@ -234,10 +232,8 @@ function openModal(event) {
   modal = target;
   modal.addEventListener("click", closeModal);
   modal.querySelector(".modalCloser").addEventListener("click", closeModal);
-  modal
-    .querySelector("#modalStopPropagation")
-    .addEventListener("click", stopPropagation);
-}
+  modal.querySelector("#modalStopPropagation").addEventListener("click", stopPropagation);
+};
 
 function closeModal(event) {
   if (modal === null) return;
@@ -247,12 +243,15 @@ function closeModal(event) {
   modal.removeAttribute("aria-modal");
   modal.removeEventListener("click", closeModal);
   modal.querySelector(".modalCloser").removeEventListener("click", closeModal);
-  modal
-    .querySelector("#modalStopPropagation")
-    .removeEventListener("click", stopPropagation);
+  modal.querySelector("#modalStopPropagation").removeEventListener("click", stopPropagation);
   modal = null;
-}
+};
 
+
+
+
+
+//MODAL2 Opening and closing
 function openModal2(event) {
   event.preventDefault();
   closeModal(event);
@@ -263,14 +262,13 @@ function openModal2(event) {
   modal = target;
   modal.addEventListener("click", closeModal2);
   modal.querySelector(".modalCloser").addEventListener("click", closeModal2);
-  modal
-    .querySelector("#modalStopPropagation")
-    .addEventListener("click", stopPropagation);
-  modal.querySelector(".backButton").addEventListener("click", () => {
+  modal.querySelector("#modalStopPropagation").addEventListener("click", stopPropagation);
+  modal.querySelector(".backButton").addEventListener("click", () => 
+  {
     closeModal2(event);
     openModal(event);
   });
-}
+};
 
 function closeModal2(event) {
   if (modal === null) return;
@@ -280,10 +278,9 @@ function closeModal2(event) {
   modal.removeAttribute("aria-modal");
   modal.removeEventListener("click", closeModal2);
   modal.querySelector(".modalCloser").removeEventListener("click", closeModal2);
-  modal
-    .querySelector("#modalStopPropagation")
-    .removeEventListener("click", stopPropagation);
-  modal.querySelector(".backButton").removeEventListener("click", () => {
+  modal.querySelector("#modalStopPropagation").removeEventListener("click", stopPropagation);
+  modal.querySelector(".backButton").removeEventListener("click", () => 
+  {
     closeModal2(event);
     openModal(event);
   });
@@ -291,20 +288,23 @@ function closeModal2(event) {
 }
 
 
-//Stop Modal close by clicking on it
+
+//MODAL Navigation
+//--
+
+    //Stop Modal closing by clicking on it
 const stopPropagation = function (event) {
   event.stopPropagation();
 };
 
-//Modal exit (Keyboard)
+    //Modal exit (Keyboard)
 window.addEventListener("keydown", function (event) {
   if (event.key === "Escape" || event.key === "Esc") {
     closeModal(event);
   }
 });
 
-//Modal "switch"
-
+    //Modal "switch"
 document.querySelector("#addPicture").addEventListener("click", openModal2);
 
 window.addEventListener("keydown", function (event) {
@@ -314,54 +314,71 @@ window.addEventListener("keydown", function (event) {
 });
 
 
-//MODAL GALLERY
+
+
+
+
+
+
+
+
+
+
+//MODAL GALLERY CREATION
 //--
 
-async function getModalContent() {
-  // Récuperation des piéces depuis l'API
+async function getModalContent() 
+{  
+  // get Work from the API
   const response = await fetch(url);
   works = await response.json();
   generateModalContent(works);
 }
 
+  //getModalContent right away
 (async function () {
   await getModalContent();
 })();
 
-function generateModalContent(works) {
-  //create works in modal from json
+
+  //Create article and their buttons in the Modal Gallery
+function generateModalContent(works) 
+{
+    //create works in modal from json
   for (let i = 0; i < works.length; i++) {
     const article = works[i];
 
-    //création des balises
+    //Tag creation
     const img = document.createElement("img");
     img.src = article.imageUrl;
 
     const label = document.createElement("p");
     label.textContent = "éditer";
 
-    //création des boutons sur chaque article
+    //button creation for every articles
+      //trash button
     const btn = document.createElement("button");
     btn.dataset.workId = article.id;
     btn.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
     btn.addEventListener("click", deleteWork);
-
+      
+      //move button
     const btnMove = document.createElement("button");
     btnMove.innerHTML = '<i class="fa-solid fa-up-down-left-right"></i>';
     btnMove.style.display = "none";
 
-    //création d'une balise dédiée à un projet
+    //building the entire article
     const workElement = document.createElement("article");
     workElement.appendChild(img);
     workElement.appendChild(label);
     workElement.appendChild(btn);
     workElement.appendChild(btnMove);
 
-    //recuperation de l'élément du DOM qui acceuillera les travaux
+    //DOM Hosting 
     const modalGallery = document.querySelector(".modalGallery");
     modalGallery.appendChild(workElement);
 
-    // Gestion de l'affichage du bouton de suppression au survol de l'article
+    // Dynamism of the move button
     workElement.addEventListener("mouseenter", () => {
       btnMove.style.display = "flex";
       btnMove.style.right = "30px";
@@ -369,13 +386,27 @@ function generateModalContent(works) {
     workElement.addEventListener("mouseleave", () => {
       btnMove.style.display = "none";
     });
-  }
-}
+
+  };
+};
+
+
+
+
+
+
+
+
+
+
+
 
 //DELETE WORKS
 //--
 
-async function deleteWork(event) {
+//Delete works from the API
+async function deleteWork(event) 
+{
   event.preventDefault();
 
   //identify closest work to the button
@@ -386,11 +417,11 @@ async function deleteWork(event) {
   const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
     method: "DELETE",
     headers: {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`, //suppression necessity
     },
   });
 
-  //sucess conditions
+  //success conditions
   if (response.ok) {
     console.log("le projet a été supprimé avec succès !");
     event.target.closest("article").remove();
@@ -398,6 +429,15 @@ async function deleteWork(event) {
     alert("Une erreur s'est produite lors de la suppression du projet !");
   }
 }
+
+
+
+
+
+
+
+
+
 
 
 //ADD WORKS
@@ -409,11 +449,11 @@ const form = document.querySelector(".form");
 const iconForm = document.getElementById("iconForm");
 const label = document.querySelector(".addWorkImage");
 const pForm = document.querySelector(".txtImgUpload");
-const image = document.getElementById("image"); // = nvFichier
+const image = document.getElementById("image");
 const formTitle = document.getElementById("titre");
 const formCategory = document.getElementById("category");
-const btnValidate = document.getElementById("btnValidate"); // "Add Work" button
-const previewImage = document.getElementById("previewImage"); // = imgDw
+const btnValidate = document.getElementById("btnValidate"); 
+const previewImage = document.getElementById("previewImage");
 
 // Event listeners for form input fields to track changes
 
@@ -421,6 +461,10 @@ image.addEventListener("input", validateForm);
 formTitle.addEventListener("input", validateForm);
 formCategory.addEventListener("input", validateForm);
 
+
+
+
+//PREVIEW IMAGE
 //Function to show the chosen img in the form
 
 image.addEventListener("change", function () {
@@ -442,9 +486,15 @@ image.addEventListener("change", function () {
   }
 });
 
-// Function to check form state and enable/disable the "Add Work" button accordingly
 
-function validateForm() {
+
+
+
+//POST BUTTON ACTIVATION
+// Function to check form state and enable/disable the validate button accordingly
+
+function validateForm() 
+{ 
   if (
     image.value.trim() !== "" &&
     formTitle.value.trim() !== "" &&
@@ -453,11 +503,19 @@ function validateForm() {
     btnValidate.disabled = false;
     btnValidate.style.backgroundColor = "#1D6154";
   } else {
+    //B
     btnValidate.disabled = true;
     btnValidate.style.backgroundColor = "#A7A7A7";
   }
-  console.log("Fonction validateForm appelée !");
-}
+};
+
+
+
+
+
+
+//CREATE NEW WORK
+//Function to create works in the API
 
 async function createWorks(event) {
   event.preventDefault();
@@ -479,6 +537,8 @@ async function createWorks(event) {
     body: formData,
   });
 
+
+  //If a new work is posted reload the gallery and close modal 
   if (response.status === 201) {
     console.log("Le projet a été créé avec succès !");
     form.reset();
@@ -489,6 +549,6 @@ async function createWorks(event) {
     console.error(response.status);
     console.error(await response.text());
   }
-}
+};
 
 form.addEventListener("submit", createWorks);
