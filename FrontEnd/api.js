@@ -14,6 +14,7 @@ var token = sessionStorage.getItem("token");
 // Init function
 //
 
+
 async function getAllWorks() 
 {
   
@@ -61,12 +62,32 @@ function generateWorks(works)
 
 // FILTERS BUTTONS
 // --
+//Buttons creation
+
+const buttonData = [
+  { id: 'btnAll', label: 'Tous' },
+  { id: 'btnObjects', label: 'Objets' },
+  { id: 'btnAppartments', label: 'Appartements' },
+  { id: 'btnHotelsAndRestaurants', label: 'Hôtels & restaurants' }
+];
+
+const filterContainer = document.querySelector('.filter');
+
+buttonData.forEach(data => {
+  const button = document.createElement('button');
+  button.textContent = data.label;
+  button.id = data.id; // Ajoute l'ID au bouton
+  button.classList.add('buttonsFilter');
+  
+  filterContainer.appendChild(button);
+});
+
 
 //Buttons nodes
-const btn_all = document.querySelector("#btnAll");
-const btn_filter_object = document.querySelector("#btnObjects");
-const btn_filter_flats = document.querySelector("#btnAppartments");
-const btn_filter_hotels = document.querySelector("#btnHotelsAndRestaurants");
+const btn_all = document.getElementById("btnAll");
+const btn_filter_object = document.getElementById("btnObjects");
+const btn_filter_flats = document.getElementById("btnAppartments");
+const btn_filter_hotels = document.getElementById("btnHotelsAndRestaurants");
 
 //Buttons actions
 //
@@ -74,13 +95,13 @@ btn_all.addEventListener("click", (event) => {
   getWorks("all");
 });
 btn_filter_object.addEventListener("click", (event) => {
-  getWorks("Objets");
+  getWorks(1);
 });
 btn_filter_flats.addEventListener("click", (event) => {
-  getWorks("Appartements");
+  getWorks(2);
 });
 btn_filter_hotels.addEventListener("click", (event) => {
-  getWorks("Hotels & restaurants");
+  getWorks(3);
 });
 
 
@@ -92,8 +113,12 @@ function resetGalleryView() {
   document.querySelector(".gallery").innerHTML = "";
 }
 
-function filterWorks(category) {
+/*function filterWorks(category) {
   return works.filter((work) => work.category.name === category);
+}*/
+
+function filterWorks(category) {
+  return works.filter((work) => work.category.id === category);
 }
 
 //filter works by category
@@ -130,7 +155,7 @@ function getWorks(category) {
 //ADMINISTRATOR MODE
 //--
 // token is set in the early code line 11
-
+    
 
 // token conditions
 if (token) {
@@ -193,6 +218,21 @@ if (token) {
   banner.appendChild(icon);
   banner.appendChild(label);
   banner.appendChild(btnBanner);
+
+  //condition n°4
+  //LOGIN TO LOGOUT
+
+  const loginLi = document.querySelector(".loginNav");
+
+  const logoutLi = document.createElement("li");
+  const logoutLink = document.createElement("a");
+  logoutLink.href="index.html";
+  logoutLink.textContent="logout";
+  logoutLi.appendChild(logoutLink);
+
+  loginLi.parentNode.replaceChild(logoutLi, loginLi);
+
+  logoutLink.addEventListener("click", () => sessionStorage.clear());
   
   } else {
 
@@ -510,7 +550,28 @@ function validateForm()
 };
 
 
+//CREATE CATEGORY OPTIONS
+//
 
+const categorySelect = document.getElementById('category');
+
+fetch('http://localhost:5678/api/categories')
+.then(response => response.json())
+.then(data => {
+
+categorySelect.innerHTML="";
+
+const emptyOption = document.createElement('option');
+emptyOption.value = ''; // Set the value attribute 
+categorySelect.appendChild(emptyOption);
+
+  data.forEach(category => {
+    const option = document.createElement('option');
+    option.value = category.id; // Set the value attribute
+    option.textContent = category.name; // Set the visible text
+    categorySelect.appendChild(option);
+    });
+   });
 
 
 
@@ -528,6 +589,7 @@ async function createWorks(event) {
   formData.append("image", selectedImage);
   formData.append("title", titre);
   formData.append("category", category);
+  
 
   const response = await fetch("http://localhost:5678/api/works", {
     method: "POST",

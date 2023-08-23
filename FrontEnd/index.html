@@ -22,11 +22,11 @@
       <div class="headerNav">
         <h1>Sophie Bluel <span>Architecte d'inteérieur</span></h1>
         <nav>
-          <ul>
+          <ul class="navList">
             <li><a href="index.html">projets</a></li>
             <li><a href="#">contact</a></li>
-            <li><a href="login.html">login</a></li>
-            <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
+            <li class="loginNav"><a href="login.html">login</a></li>
+            <li><img src="./assets/icons/instagram.png" alt="Instagram"/></li>
           </ul>
         </nav>
       </div>
@@ -93,12 +93,7 @@
               <input type="text" name="title" id="titre">
 
               <label for="category">Catégorie</label>
-              <select type="text" name="category" id="category">
-                <option value="null"></option>
-                <option value="1">Objets</option>
-                <option value="2">Appartements</option>
-                <option value="3">Hotels & restaurants</option>
-              </select>
+              <select type="text" name="category" id="category"></select>
               <hr>
               <input id="btnValidate" type="submit" value="Valider" aria-label="Envoyer le formulaire de connection">
             </form>
@@ -110,15 +105,10 @@
       </div>
       </div>
 
-      <div class="filter">
-        <button id="btnAll" class="buttonsFilter">Tous</button>
-        <button id="btnObjects" class="buttonsFilter">Objets</button>
-        <button id="btnAppartments" class="buttonsFilter">Appartements</button>
-        <button id="btnHotelsAndRestaurants" class="buttonsFilter">Hôtels & restaurants</button>
-      </div>
+      <div class="filter"></div>
 
       <div class="gallery"></div>
-
+      
     </section>
 
     <section id="contact">
